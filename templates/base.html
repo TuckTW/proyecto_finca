@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Finca El Puente{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        .sidebar { min-height: 100vh; background: #2c3e50; }
+        .sidebar .nav-link { color: rgba(255,255,255,.7); padding: 12px 20px; margin: 2px 10px; border-radius: 8px; }
+        .sidebar .nav-link:hover { color: white; background: rgba(255,255,255,.1); }
+        .sidebar .nav-link.active { color: white; background: #3498db; }
+        .main-content { padding: 20px 30px; }
+        .stat-card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,.08); text-align: center; }
+        .card { border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,.08); }
+        .card-header { background: #f8f9fa; border-bottom: 2px solid #3498db; }
+        .btn-logout { background: none; border: none; color: rgba(255,255,255,.7); padding: 12px 20px; margin: 2px 10px; border-radius: 8px; width: 100%; text-align: left; font-size: 1rem; }
+        .btn-logout:hover { color: white; background: rgba(255,255,255,.1); }
+        .btn-logout.text-danger { color: #dc3545 !important; }
+        .btn-logout.text-danger:hover { color: #ff6b7a !important; }
+    </style>
+</head>
+<body>
+    <div class="container-fluid p-0">
+        <div class="row g-0">
+            <nav class="col-md-2 sidebar p-0" style="min-height: 100vh;">
+                <div class="p-3 text-center border-bottom">
+                    <h5 class="text-white mb-0">🏠 Finca El Puente</h5>
+                    <small class="text-secondary">Sistema de Gestión</small>
+                </div>
+                <ul class="nav flex-column mt-3">
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="/">
+                            <i class="bi bi-speedometer2"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if '/ganado' in request.path %}active{% endif %}" href="{% url 'ganado:listar_ganado' %}">
+                            <i class="bi bi-tree"></i> Ganado
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'sanitario:listar_vacunas' %}">
+                            <i class="bi bi-syringe"></i> Sanitario
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'alimentacion:listar_alimentacion' %}">
+                            <i class="bi bi-cup-hot"></i> Alimentación
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'reportes:index' %}">
+                            <i class="bi bi-file-earmark-pdf"></i> Reportes
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'qr:index' %}">
+                            <i class="bi bi-qr-code"></i> Códigos QR
+                        </a>
+                    </li>
+                    <li class="nav-item mt-3">
+                        <form method="post" action="{% url 'logout' %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn-logout text-danger">
+                                <i class="bi bi-box-arrow-right"></i> Salir
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </nav>
+
+            <main class="col-md-10 main-content">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4 class="mb-0">{% block page_title %}{% endblock %}</h4>
+                    <span class="text-secondary"><i class="bi bi-person-circle"></i> {{ user.username }}</span>
+                </div>
+
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+                {% block content %}{% endblock %}
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

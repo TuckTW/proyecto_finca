@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block title %}Estadísticas - Finca El Puente{% endblock %}
+
+{% block page_title %}
+    <i class="bi bi-bar-chart"></i> Estadísticas del Ganado
+    <a href="{% url 'reportes:index' %}" class="btn btn-secondary btn-sm float-end">
+        <i class="bi bi-arrow-left"></i> Volver
+    </a>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <i class="bi bi-pie-chart"></i> Distribución por Estado
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr><th>Estado</th><th>Cantidad</th></tr>
+                        </thead>
+                        <tbody>
+                            {% for e in por_estado %}
+                            <tr>
+                                <td>{{ e.0 }}</td>
+                                <td>{{ e.1 }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr><td colspan="2" class="text-center">No hay datos</td></tr>
+                            {% endfor %}
+                        </tbody>
+                        <tfoot>
+                            <tr class="table-primary">
+                                <th>Total</th>
+                                <th>{{ total }}</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <i class="bi bi-pie-chart"></i> Distribución por Raza
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr><th>Raza</th><th>Cantidad</th></tr>
+                        </thead>
+                        <tbody>
+                            {% for r in por_raza %}
+                            <tr>
+                                <td>{{ r.0 }}</td>
+                                <td>{{ r.1 }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr><td colspan="2" class="text-center">No hay datos</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-4">
+        <div class="card text-center bg-primary text-white">
+            <div class="card-body">
+                <h3>{{ total }}</h3>
+                <p>Total Animales</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center bg-success text-white">
+            <div class="card-body">
+                <h3>{{ peso_promedio }} kg</h3>
+                <p>Peso Promedio</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center bg-warning text-dark">
+            <div class="card-body">
+                <h3>{{ por_estado|length }}</h3>
+                <p>Estados Diferentes</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

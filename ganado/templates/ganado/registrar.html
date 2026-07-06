@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block title %}Registrar Ganado{% endblock %}
+
+{% block page_title %}
+    <i class="bi bi-plus-circle"></i> Registrar Animal
+    <a href="{% url 'ganado:listar_ganado' %}" class="btn btn-secondary btn-sm float-end">
+        <i class="bi bi-arrow-left"></i> Volver
+    </a>
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Código *</label>
+                        <input type="text" name="codigo" class="form-control" placeholder="Ej: BHM001" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Nombre *</label>
+                        <input type="text" name="nombre" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Raza *</label>
+                        <select name="raza" class="form-control" required>
+                            <option value="">Seleccione...</option>
+                            {% for raza in razas %}
+                                <option value="{{ raza.0 }}">{{ raza.1 }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Sexo *</label>
+                        <select name="sexo" class="form-control">
+                            <option value="Macho">Macho</option>
+                            <option value="Hembra">Hembra</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Fecha Nacimiento</label>
+                        <input type="date" name="fecha_nacimiento" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Peso Inicial (kg)</label>
+                        <input type="number" name="peso_inicial" class="form-control" step="0.01">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Estado *</label>
+                        <select name="estado" class="form-control">
+                            <option value="Activo">Activo</option>
+                            <option value="Enfermo">Enfermo</option>
+                            <option value="Vendido">Vendido</option>
+                            <option value="Muerto">Muerto</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Color</label>
+                        <input type="text" name="color" class="form-control">
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label fw-bold">Observaciones</label>
+                <textarea name="observaciones" class="form-control" rows="3"></textarea>
+            </div>
+            <hr>
+            <div class="text-end">
+                <button type="reset" class="btn btn-secondary me-2">
+                    <i class="bi bi-arrow-counterclockwise"></i> Limpiar
+                </button>
+                <button type="submit" class="btn btn-success">
+                    <i class="bi bi-save"></i> Guardar Animal
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

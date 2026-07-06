@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}QR de {{ animal.nombre }}{% endblock %}
+
+{% block page_title %}
+    <i class="bi bi-qr-code"></i> Código QR - {{ animal.nombre }}
+    <a href="{% url 'qr:index' %}" class="btn btn-secondary btn-sm float-end">
+        <i class="bi bi-arrow-left"></i> Volver
+    </a>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <i class="bi bi-info-circle"></i> Datos del Animal
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <tr><th>Código</th><td>{{ animal.codigo }}</td></tr>
+                    <tr><th>Nombre</th><td>{{ animal.nombre }}</td></tr>
+                    <tr><th>Raza</th><td>{{ animal.id_raza.nombre }}</td></tr>
+                    <tr><th>Sexo</th><td>{{ animal.sexo }}</td></tr>
+                    <tr><th>Peso Actual</th><td>{{ animal.peso_actual|default:"-" }} kg</td></tr>
+                    <tr><th>Estado</th><td>{{ animal.estado }}</td></tr>
+                    <tr><th>Color</th><td>{{ animal.color|default:"-" }}</td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <i class="bi bi-qr-code"></i> Código QR
+            </div>
+            <div class="card-body text-center">
+                <img src="data:image/png;base64,{{ qr_image }}" alt="QR Code" class="img-fluid" style="max-width: 300px;">
+                <p class="mt-3">
+                    <small class="text-muted">Escanea con tu celular para ver la información</small>
+                </p>
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle"></i>
+                    <strong>URL para escanear:</strong><br>
+                    <code>http://{{ request.get_host }}/qr/escanear/{{ animal.codigo }}/</code>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Lista de Ganado{% endblock %}
+
+{% block page_title %}
+    <i class="bi bi-tree"></i> Lista de Ganado
+    <a href="{% url 'ganado:registrar_ganado' %}" class="btn btn-success btn-sm float-end">
+        <i class="bi bi-plus-circle"></i> Nuevo
+    </a>
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Nombre</th>
+                        <th>Raza</th>
+                        <th>Sexo</th>
+                        <th>Peso (kg)</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for animal in ganado %}
+                    <tr>
+                        <td><strong>{{ animal.1 }}</strong></td>
+                        <td>{{ animal.2 }}</td>
+                        <td>{{ animal.14 }}</td>
+                        <td>{{ animal.4 }}</td>
+                        <td>{{ animal.7|default:"-" }}</td>
+                        <td>
+                            <span class="badge bg-{% if animal.8 == 'Activo' %}success{% elif animal.8 == 'Enfermo' %}danger{% elif animal.8 == 'Vendido' %}warning{% else %}secondary{% endif %}">
+                                {{ animal.8 }}
+                            </span>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="text-center">No hay animales registrados</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

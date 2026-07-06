@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Códigos QR - Finca El Puente{% endblock %}
+
+{% block page_title %}
+    <i class="bi bi-qr-code"></i> Códigos QR por Animal
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Nombre</th>
+                        <th>Raza</th>
+                        <th>Peso (kg)</th>
+                        <th>QR</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for animal in animales %}
+                    <tr>
+                        <td><strong>{{ animal.1 }}</strong></td>
+                        <td>{{ animal.2 }}</td>
+                        <td>{{ animal.3 }}</td>
+                        <td>{{ animal.4|default:"-" }}</td>
+                        <td>
+                            <a href="{% url 'qr:generar_qr' animal.0 %}" class="btn btn-primary btn-sm">
+                                <i class="bi bi-qr-code"></i> Ver QR
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="5" class="text-center">No hay animales registrados</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

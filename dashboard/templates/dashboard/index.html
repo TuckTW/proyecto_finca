@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - Finca El Puente{% endblock %}
+
+{% block page_title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-3">
+        <div class="stat-card">
+            <h6 class="text-muted">Total Ganado</h6>
+            <h3 class="text-primary">{{ stats.total_ganado }}</h3>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <h6 class="text-muted">Animales Activos</h6>
+            <h3 class="text-success">{{ stats.ganado_activo }}</h3>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <h6 class="text-muted">Animales Enfermos</h6>
+            <h3 class="text-danger">{{ stats.ganado_enfermo }}</h3>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <h6 class="text-muted">Peso Promedio</h6>
+            <h3 class="text-warning">{{ stats.peso_promedio|floatformat:2 }} kg</h3>
+        </div>
+    </div>
+</div>
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <i class="bi bi-info-circle"></i> Bienvenido al Sistema
+            </div>
+            <div class="card-body">
+                <p>Sistema de Gestión Ganadera - Finca El Puente</p>
+                <p>Use el menú lateral para navegar por los módulos.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

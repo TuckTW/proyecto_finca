@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Reportes - Finca El Puente{% endblock %}
+
+{% block page_title %}
+    <i class="bi bi-file-earmark-pdf"></i> Reportes y Estadísticas
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="bi bi-file-pdf fs-1 text-danger"></i>
+                <h5 class="card-title mt-2">Reporte PDF</h5>
+                <p class="card-text">Lista completa de todos los animales</p>
+                <a href="{% url 'reportes:reporte_pdf' %}" class="btn btn-danger">
+                    <i class="bi bi-download"></i> Descargar PDF
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="bi bi-file-excel fs-1 text-success"></i>
+                <h5 class="card-title mt-2">Reporte Excel</h5>
+                <p class="card-text">Datos exportables a Excel</p>
+                <a href="{% url 'reportes:reporte_excel' %}" class="btn btn-success">
+                    <i class="bi bi-download"></i> Descargar Excel
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="bi bi-bar-chart fs-1 text-primary"></i>
+                <h5 class="card-title mt-2">Estadísticas</h5>
+                <p class="card-text">Gráficos y análisis de datos</p>
+                <a href="{% url 'reportes:estadisticas' %}" class="btn btn-primary">
+                    <i class="bi bi-eye"></i> Ver Estadísticas
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
