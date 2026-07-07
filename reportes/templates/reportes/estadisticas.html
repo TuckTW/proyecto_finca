@@ -42,6 +42,41 @@
                 </div>
             </div>
         </div>
+        <div class="card mt-3">
+            <div class="card-header">
+                <i class="bi bi-graph-up-arrow"></i> Ganancias por Peso de Animal
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Nombre</th>
+                                <th>Raza</th>
+                                <th class="text-end">Peso Inicial</th>
+                                <th class="text-end">Peso Actual</th>
+                                <th class="text-end">Ganancia (kg)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for g in ganancias_peso %}
+                            <tr>
+                                <td>{{ g.0 }}</td>
+                                <td>{{ g.1 }}</td>
+                                <td>{{ g.2 }}</td>
+                                <td class="text-end">{{ g.3|floatformat:2 }}</td>
+                                <td class="text-end">{{ g.4|floatformat:2 }}</td>
+                                <td class="text-end">{{ g.5|floatformat:2 }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr><td colspan="6" class="text-center">No hay datos de peso disponibles</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
     
     <div class="col-md-6">
@@ -63,6 +98,37 @@
                             </tr>
                             {% empty %}
                             <tr><td colspan="2" class="text-center">No hay datos</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="card mt-3">
+            <div class="card-header">
+                <i class="bi bi-calendar-check"></i> Vacunas Próximas (próximos 30 días)
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Nombre</th>
+                                <th>Vacuna</th>
+                                <th>Fecha Próxima</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for v in vacunas_proximas %}
+                            <tr>
+                                <td>{{ v.0 }}</td>
+                                <td>{{ v.1 }}</td>
+                                <td>{{ v.2 }}</td>
+                                <td>{{ v.3|date:'d/m/Y' }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr><td colspan="4" class="text-center">No hay vacunas próximas</td></tr>
                             {% endfor %}
                         </tbody>
                     </table>

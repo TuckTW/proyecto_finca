@@ -113,12 +113,36 @@ def estadisticas(request):
         
         cursor.execute("SELECT COUNT(*) FROM ganado")
         total = cursor.fetchone()[0]
+
+        cursor.execute("""
+            SELECT g.codigo, g.nombre, v.nombre, h.proxima_fecha
+            FROM historial_vacunacion h
+            JOIN ganado g ON h.id_ganado = g.id_ganado
+            JOIN vacunas v ON h.id_vacuna = v.id_vacuna
+            WHERE h.proxima_fecha <= CURDATE() + INTERVAL 30 DAY
+              AND h.proxima_fecha >= CURDATE()
+            ORDER BY h.proxima_fecha ASC
+        """)
+        vacunas_proximas = cursor.fetchall()
+
+        cursor.execute("""
+            SELECT g.codigo, g.nombre, r.nombre,
+                   g.peso_inicial, g.peso_actual,
+                   (g.peso_actual - g.peso_inicial) AS ganancia
+            FROM ganado g
+            JOIN razas r ON g.id_raza = r.id_raza
+            WHERE g.peso_inicial IS NOT NULL AND g.peso_actual IS NOT NULL
+            ORDER BY ganancia DESC
+        """)
+        ganancias_peso = cursor.fetchall()
     
     context = {
         'por_estado': por_estado,
         'por_raza': por_raza,
         'peso_promedio': round(float(peso_prom), 2),
         'total': total,
+        'vacunas_proximas': vacunas_proximas,
+        'ganancias_peso': ganancias_peso,
     }
     
     return render(request, 'reportes/estadisticas.html', context)

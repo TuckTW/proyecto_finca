@@ -31,17 +31,134 @@
         </div>
     </div>
 </div>
+
 <div class="row mt-4">
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <i class="bi bi-info-circle"></i> Bienvenido al Sistema
+                <i class="bi bi-calendar-check"></i> Vacunas Pr&oacute;ximas (pr&oacute;ximos 30 d&iacute;as)
             </div>
             <div class="card-body">
-                <p>Sistema de Gestión Ganadera - Finca El Puente</p>
-                <p>Use el menú lateral para navegar por los módulos.</p>
+                {% if vacunas_proximas %}
+                <div class="table-responsive">
+                    <table class="table table-sm table-hover">
+                        <thead>
+                            <tr>
+                                <th>C&oacute;digo</th>
+                                <th>Nombre</th>
+                                <th>Vacuna</th>
+                                <th>Fecha Pr&oacute;xima</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for codigo, nombre, vacuna, fecha in vacunas_proximas %}
+                            <tr>
+                                <td>{{ codigo }}</td>
+                                <td>{{ nombre }}</td>
+                                <td>{{ vacuna }}</td>
+                                <td>{{ fecha|date:'d/m/Y' }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr><td colspan="4" class="text-center">No hay vacunas pr&oacute;ximas</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="text-muted mb-0">No hay vacunas pr&oacute;ximas.</p>
+                {% endif %}
             </div>
         </div>
     </div>
 </div>
+
+<div class="row mt-4">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <i class="bi bi-pie-chart"></i> Distribuci&oacute;n por Estado
+            </div>
+            <div class="card-body">
+                <canvas id="chartEstado" height="200"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <i class="bi bi-pie-chart"></i> Distribuci&oacute;n por Raza
+            </div>
+            <div class="card-body">
+                <canvas id="chartRaza" height="200"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <i class="bi bi-graph-up"></i> Aumento de Peso Promedio
+            </div>
+            <div class="card-body">
+                <canvas id="chartPeso" height="200"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+{{ chart_estado|json_script:"chart-estado-data" }}
+{{ chart_raza|json_script:"chart-raza-data" }}
+{{ chart_peso|json_script:"chart-peso-data" }}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<script>
+var chartEstado = JSON.parse(document.getElementById('chart-estado-data').textContent);
+var chartRaza = JSON.parse(document.getElementById('chart-raza-data').textContent);
+var chartPeso = JSON.parse(document.getElementById('chart-peso-data').textContent);
+
+if (chartEstado.labels.length) {
+    new Chart(document.getElementById('chartEstado'), {
+        type: 'pie',
+        data: {
+            labels: chartEstado.labels,
+            datasets: [{ data: chartEstado.data, backgroundColor: chartEstado.colors }]
+        },
+        options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+    });
+}
+
+if (chartRaza.labels.length) {
+    new Chart(document.getElementById('chartRaza'), {
+        type: 'pie',
+        data: {
+            labels: chartRaza.labels,
+            datasets: [{ data: chartRaza.data, backgroundColor: chartRaza.colors }]
+        },
+        options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+    });
+}
+
+if (chartPeso.labels.length) {
+    new Chart(document.getElementById('chartPeso'), {
+        type: 'line',
+        data: {
+            labels: chartPeso.labels,
+            datasets: [{
+                label: 'Peso promedio (kg)',
+                data: chartPeso.data,
+                borderColor: '#3498db',
+                backgroundColor: 'rgba(52,152,219,0.1)',
+                fill: true,
+                tension: 0.3
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { display: false } },
+            scales: { y: { beginAtZero: false } }
+        }
+    });
+}
+</script>
 {% endblock %}
