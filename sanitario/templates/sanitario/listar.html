@@ -21,19 +21,27 @@
                         <th>Vacuna</th>
                         <th>Fecha</th>
                         <th>Próxima</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for v in vacunaciones %}
                     <tr>
-                        <td>{{ v.0 }}</td>
                         <td>{{ v.1 }}</td>
                         <td>{{ v.2 }}</td>
-                        <td>{{ v.3|date:"d/m/Y" }}</td>
-                        <td>{{ v.4|date:"d/m/Y"|default:"-" }}</td>
+                        <td>{{ v.3 }}</td>
+                        <td>{{ v.4|date:"d/m/Y" }}</td>
+                        <td>{{ v.5|date:"d/m/Y"|default:"-" }}</td>
+                        <td>
+                            <a href="{% url 'sanitario:editar_vacunacion' v.0 %}" class="btn btn-sm btn-outline-primary">Editar</a>
+                            <form method="post" action="{% url 'sanitario:eliminar_vacunacion' v.0 %}" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Eliminar este registro?')">Eliminar</button>
+                            </form>
+                        </td>
                     </tr>
                     {% empty %}
-                    <tr><td colspan="5" class="text-center">No hay registros</td></tr>
+                    <tr><td colspan="6" class="text-center">No hay registros</td></tr>
                     {% endfor %}
                 </tbody>
             </table>

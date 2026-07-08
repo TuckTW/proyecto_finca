@@ -88,8 +88,23 @@ def editar_ganado(request, id):
     animal = get_object_or_404(Ganado, pk=id)
 
     if request.method == 'POST':
-        messages.success(request, f'Animal {id} actualizado (demo)')
-        return redirect('ganado:listar_ganado')
+        try:
+            nuevo_peso = request.POST.get('peso_actual')
+            if nuevo_peso:
+                animal.peso_actual = nuevo_peso
+                animal.save(update_fields=['peso_actual'])
+                ganancia = float(nuevo_peso) - float(animal.peso_inicial or 0)
+                Notificacion.objects.create(
+                    usuario=request.user,
+                    titulo="Peso Actualizado",
+                    mensaje=f"El animal {animal.nombre} ({animal.codigo}) actualizo su peso a {nuevo_peso} kg (ganancia: {ganancia:.2f} kg).",
+                    tipo="Exito"
+                )
+                messages.success(request, f'Peso actualizado a {nuevo_peso} kg (ganancia: {ganancia:.2f} kg)')
+            return redirect('ganado:listar_ganado')
+        except Exception as e:
+            messages.error(request, f'Error al actualizar: {str(e)}')
+            return redirect('ganado:editar_ganado', id=id)
 
     vacunas_sugeridas = calcular_recomendaciones_vacunas(animal)
 

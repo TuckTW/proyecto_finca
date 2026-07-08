@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}Editar Vacunacion{% endblock %}
+
+{% block page_title %}
+    <i class="bi bi-pencil"></i> Editar Vacunacion #{{ vac.id_historial }}
+    <a href="{% url 'sanitario:listar_vacunas' %}" class="btn btn-secondary btn-sm float-end">
+        <i class="bi bi-arrow-left"></i> Volver
+    </a>
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Animal *</label>
+                        <select name="animal" class="form-control" required>
+                            {% for animal in animales %}
+                            <option value="{{ animal.0 }}" {% if animal.0 == vac.id_ganado %}selected{% endif %}>{{ animal.1 }} - {{ animal.2 }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Vacuna *</label>
+                        <select name="vacuna" class="form-control" required>
+                            {% for vacuna in vacunas %}
+                            <option value="{{ vacuna.0 }}" {% if vacuna.0 == vac.id_vacuna %}selected{% endif %}>{{ vacuna.1 }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Fecha *</label>
+                        <input type="date" name="fecha" class="form-control" value="{{ vac.fecha|date:'Y-m-d' }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Proxima Fecha</label>
+                        <input type="date" name="proxima_fecha" class="form-control" value="{{ vac.proxima_fecha|date:'Y-m-d'|default:'' }}">
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label fw-bold">Observaciones</label>
+                <textarea name="observaciones" class="form-control" rows="3">{{ vac.observaciones }}</textarea>
+            </div>
+            <hr>
+            <div class="text-end">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-save"></i> Guardar Cambios
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

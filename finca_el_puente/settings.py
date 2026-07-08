@@ -71,7 +71,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'BD_FincaElPuente',
         'USER': 'root',
-        'PASSWORD': 'password',  # Tu contraseña
+        'PASSWORD': 'Plumley347',  # Tu contraseña
         'HOST': 'localhost',
         'PORT': '3306',
         'OPTIONS': {

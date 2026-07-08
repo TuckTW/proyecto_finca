@@ -55,10 +55,38 @@
 {% endif %}
 
 <div class="card">
+    <div class="card-header">
+        <i class="bi bi-pencil"></i> Actualizar Peso
+    </div>
     <div class="card-body">
-        <div class="alert alert-warning">
-            <i class="bi bi-exclamation-triangle"></i> Edicion en construccion
-        </div>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="row align-items-end">
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Peso Inicial (kg)</label>
+                        <input type="text" class="form-control" value="{{ animal.peso_inicial|floatformat:2|default:'-' }}" disabled>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Peso Actual (kg) *</label>
+                        <input type="number" name="peso_actual" class="form-control" step="0.01" value="{{ animal.peso_actual|floatformat:2|default:'' }}" required>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Ganancia (kg)</label>
+                        <input type="text" class="form-control" value="{% if animal.peso_inicial and animal.peso_actual %}{{ animal.peso_actual|floatformat:2 }} - {{ animal.peso_inicial|floatformat:2 }}{% else %}-{% endif %}" disabled>
+                    </div>
+                </div>
+            </div>
+            <div class="text-end">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-save"></i> Guardar Cambios
+                </button>
+            </div>
+        </form>
     </div>
 </div>
 {% endblock %}
