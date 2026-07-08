@@ -1,6 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.db import connection
 from django.contrib.auth.decorators import login_required
+from django.db.models import Avg
+from ganado.models import Ganado
+from .models import Notificacion
 
 @login_required
 def dashboard(request):
@@ -97,3 +100,8 @@ def dashboard(request):
         'chart_raza': chart_raza,
         'chart_peso': chart_peso,
     })
+
+@login_required
+def marcar_notificaciones_leidas(request):
+    Notificacion.objects.filter(usuario=request.user, leido=False).update(leido=True)
+    return redirect(request.META.get('HTTP_REFERER', '/'))

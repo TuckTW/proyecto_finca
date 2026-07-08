@@ -56,7 +56,7 @@ def registrar_vacunacion(request):
     vacunas = []
     try:
         with connection.cursor() as cursor:
-            cursor.execute("SELECT id_ganado, codigo, nombre FROM ganado WHERE estado='Activo'")
+            cursor.execute("SELECT id_ganado, codigo, nombre FROM ganado ORDER BY codigo")
             animales = cursor.fetchall()
             cursor.execute("SELECT id_vacuna, nombre FROM vacunas")
             vacunas = cursor.fetchall()

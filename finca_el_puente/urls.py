@@ -13,6 +13,8 @@ urlpatterns = [
     path('reportes/', include('reportes.urls')),
     path('qr/', include('qr.urls')),
     path('usuarios/', include('usuarios.urls')),
+    path('hortalizas/', include('hortalizas.urls', namespace='hortalizas')),
+    path('avicola/', include('avicola.urls', namespace='avicola')),
     # Logout directo (también funciona en /usuarios/logout/)
     path('logout/', auth_views.LogoutView.as_view(next_page='/'), name='logout'),
 ]

@@ -60,6 +60,16 @@
                             <i class="bi bi-qr-code"></i> Códigos QR
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'hortalizas:lista_cultivos' %}">
+                            <i class="bi bi-flower1"></i> Hortalizas
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'avicola:lista_aves' %}">
+                            <i class="bi bi-egg"></i> Avícola
+                        </a>
+                    </li>
                     <li class="nav-item mt-3">
                         <form method="post" action="{% url 'logout' %}">
                             {% csrf_token %}
@@ -74,7 +84,39 @@
             <main class="col-md-10 main-content">
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h4 class="mb-0">{% block page_title %}{% endblock %}</h4>
-                    <span class="text-secondary"><i class="bi bi-person-circle"></i> {{ user.username }}</span>
+                    <div class="d-flex align-items-center">
+                        <div class="dropdown me-3">
+                            <a class="nav-link position-relative" href="#" id="notifDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-bell"></i>
+                                {% if cantidad_notificaciones > 0 %}
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.65em;">
+                                    {{ cantidad_notificaciones }}
+                                </span>
+                                {% endif %}
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end shadow border-0" aria-labelledby="notifDropdown" style="width: 300px;">
+                                <li><h6 class="dropdown-header text-primary fw-bold">Notificaciones Recientes</h6></li>
+                                {% for notif in notificaciones_globales %}
+                                    <li>
+                                        <div class="dropdown-item border-bottom py-2 text-wrap" style="white-space: normal;">
+                                            <strong class="d-block mb-1">{{ notif.titulo }}</strong>
+                                            <small class="text-muted">{{ notif.mensaje }}</small>
+                                        </div>
+                                    </li>
+                                {% empty %}
+                                    <li><span class="dropdown-item text-muted small text-center py-3">No tienes notificaciones nuevas.</span></li>
+                                {% endfor %}
+                                {% if cantidad_notificaciones > 0 %}
+                                    <li>
+                                        <a class="dropdown-item text-center text-success fw-bold py-2 bg-light" href="{% url 'dashboard:marcar_leidas' %}">
+                                            Marcar todas como leidas
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                        <span class="text-secondary"><i class="bi bi-person-circle"></i> {{ user.username }}</span>
+                    </div>
                 </div>
 
                 {% if messages %}

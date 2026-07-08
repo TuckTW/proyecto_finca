@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Gestion Avicola</h2>
+        <a href="{% url 'avicola:registrar_ave' %}" class="btn btn-success shadow-sm">
+            Registrar Nuevo Lote
+        </a>
+    </div>
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-0">
+            <table class="table table-hover table-striped mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Codigo Lote</th>
+                        <th>Tipo de Ave</th>
+                        <th>Cantidad Actual</th>
+                        <th>Fecha de Ingreso</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for lote in lotes %}
+                    <tr>
+                        <td class="fw-bold text-primary">{{ lote.codigo }}</td>
+                        <td>{{ lote.tipo_ave }}</td>
+                        <td>{{ lote.cantidad_actual }} aves</td>
+                        <td>{{ lote.fecha_ingreso|date:"d/m/Y" }}</td>
+                        <td>
+                            {% if lote.estado == 'Activo' %}
+                                <span class="badge bg-success">{{ lote.estado }}</span>
+                            {% elif lote.estado == 'Cuarentena' or lote.estado == 'Enfermo/Cuarentena' %}
+                                <span class="badge bg-warning text-dark">{{ lote.estado }}</span>
+                            {% else %}
+                                <span class="badge bg-secondary">{{ lote.estado }}</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center py-4 text-muted">
+                            No hay lotes de aves registrados aun.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

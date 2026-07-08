@@ -51,7 +51,7 @@ def registrar_alimentacion(request):
     animales = []
     try:
         with connection.cursor() as cursor:
-            cursor.execute("SELECT id_ganado, codigo, nombre FROM ganado WHERE estado='Activo'")
+            cursor.execute("SELECT id_ganado, codigo, nombre FROM ganado ORDER BY codigo")
             animales = cursor.fetchall()
     except Exception as e:
         messages.warning(request, f'Error: {e}')

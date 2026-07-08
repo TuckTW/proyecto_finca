@@ -12,7 +12,7 @@ class AlimentacionForm(forms.ModelForm):
             'tipo_alimento': forms.TextInput(attrs={'class': 'form-control'}),
             'cantidad': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01'}),
         }
-    
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['id_ganado'].queryset = Ganado.objects.filter(estado='Activo')
@@ -30,7 +30,7 @@ class PesajeForm(forms.ModelForm):
             'peso': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01'}),
             'observaciones': forms.Textarea(attrs={'rows': 3, 'class': 'form-control'}),
         }
-    
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['id_ganado'].queryset = Ganado.objects.all()

@@ -4,16 +4,60 @@
 
 {% block page_title %}
     <i class="bi bi-pencil"></i> Editar Animal #{{ id }}
-    <a href="{% url 'listar_ganado' %}" class="btn btn-secondary btn-sm float-end">
+    <a href="{% url 'ganado:listar_ganado' %}" class="btn btn-secondary btn-sm float-end">
         <i class="bi bi-arrow-left"></i> Volver
     </a>
 {% endblock %}
 
 {% block content %}
+<div class="card mb-4 border-primary shadow-sm">
+    <div class="card-body">
+        <h5 class="card-title text-primary">Analisis Inteligente de Crecimiento</h5>
+        <div class="row text-center mt-3">
+            <div class="col-md-4">
+                <p class="text-muted mb-1">Peso Inicial</p>
+                <h4>{{ animal.peso_inicial }} kg</h4>
+            </div>
+            <div class="col-md-4">
+                <p class="text-muted mb-1">Peso Actual</p>
+                <h4>{{ animal.peso_actual }} kg</h4>
+            </div>
+            <div class="col-md-4">
+                <p class="text-muted mb-1">Proyeccion (Proximos 30 dias)</p>
+                <h4 class="text-success">{{ animal.predecir_peso }} kg</h4>
+            </div>
+        </div>
+        <small class="text-muted mt-2 d-block">* La proyeccion se basa en la Ganancia Media Diaria (GMD) desde su nacimiento hasta hoy.</small>
+    </div>
+</div>
+
+{% if vacunas_sugeridas %}
+<div class="card mb-4 border-danger shadow-sm">
+    <div class="card-header bg-danger text-white">
+        Recomendaciones de Vacunacion
+    </div>
+    <div class="card-body">
+        <div class="row">
+            {% for vacuna in vacunas_sugeridas %}
+            <div class="col-md-6 mb-3">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body">
+                        <span class="badge {{ vacuna.badge_color }} mb-2">{{ vacuna.tipo }}</span>
+                        <h6 class="card-title">{{ vacuna.nombre }}</h6>
+                        <p class="card-text small text-muted">{{ vacuna.indicacion }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endif %}
+
 <div class="card">
     <div class="card-body">
         <div class="alert alert-warning">
-            <i class="bi bi-exclamation-triangle"></i> Edición en construcción
+            <i class="bi bi-exclamation-triangle"></i> Edicion en construccion
         </div>
     </div>
 </div>

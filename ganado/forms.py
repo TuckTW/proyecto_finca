@@ -4,7 +4,7 @@ from .models import Ganado, Raza
 class GanadoForm(forms.ModelForm):
     class Meta:
         model = Ganado
-        fields = ['codigo', 'nombre', 'id_raza', 'sexo', 'fecha_nacimiento', 
+        fields = ['codigo', 'nombre', 'id_raza', 'sexo', 'fecha_nacimiento',
                   'peso_inicial', 'estado', 'color', 'observaciones']
         widgets = {
             'fecha_nacimiento': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
@@ -25,13 +25,13 @@ class GanadoForm(forms.ModelForm):
         self.fields['peso_inicial'].label = 'Peso Inicial (kg)'
 
 class GanadoBusquedaForm(forms.Form):
-    codigo = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Código'}))
+    codigo = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Codigo'}))
     nombre = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombre'}))
-    raza = forms.ModelChoiceField(queryset=Raza.objects.all(), required=False, 
+    raza = forms.ModelChoiceField(queryset=Raza.objects.all(), required=False,
                                    widget=forms.Select(attrs={'class': 'form-control'}), label='Raza')
     sexo = forms.ChoiceField(choices=[('', 'Todos')] + Ganado.SEXO_CHOICES, required=False,
                             widget=forms.Select(attrs={'class': 'form-control'}), label='Sexo')
     estado = forms.ChoiceField(choices=[('', 'Todos')] + Ganado.ESTADO_CHOICES, required=False,
                               widget=forms.Select(attrs={'class': 'form-control'}), label='Estado')
-    peso_min = forms.DecimalField(required=False, widget=forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01', 'placeholder': 'Mínimo'}))
-    peso_max = forms.DecimalField(required=False, widget=forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01', 'placeholder': 'Máximo'}))
+    peso_min = forms.DecimalField(required=False, widget=forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01', 'placeholder': 'Minimo'}))
+    peso_max = forms.DecimalField(required=False, widget=forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01', 'placeholder': 'Maximo'}))

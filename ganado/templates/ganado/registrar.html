@@ -29,7 +29,7 @@
                         <select name="raza" class="form-control" required>
                             <option value="">Seleccione...</option>
                             {% for raza in razas %}
-                                <option value="{{ raza.0 }}">{{ raza.1 }}</option>
+                                <option value="{{ raza.id_raza }}">{{ raza.nombre }}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -65,19 +65,46 @@
                     </div>
                 </div>
             </div>
-            <div class="mb-3">
-                <label class="form-label fw-bold">Observaciones</label>
-                <textarea name="observaciones" class="form-control" rows="3"></textarea>
-            </div>
-            <hr>
-            <div class="text-end">
-                <button type="reset" class="btn btn-secondary me-2">
-                    <i class="bi bi-arrow-counterclockwise"></i> Limpiar
-                </button>
-                <button type="submit" class="btn btn-success">
-                    <i class="bi bi-save"></i> Guardar Animal
-                </button>
-            </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Observaciones</label>
+                        <textarea name="observaciones" class="form-control" rows="3"></textarea>
+                    </div>
+                    <hr>
+                    <h5 class="text-primary mb-3">Vacunacion (opcional)</h5>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Vacuna</label>
+                                <select name="vacuna" class="form-control">
+                                    <option value="">Sin vacuna</option>
+                                    {% for v in vacunas %}
+                                    <option value="{{ v.0 }}">{{ v.1 }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Fecha Vacunacion</label>
+                                <input type="date" name="fecha_vacunacion" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Proxima Fecha</label>
+                                <input type="date" name="proxima_vacunacion" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="text-end">
+                        <button type="reset" class="btn btn-secondary me-2">
+                            <i class="bi bi-arrow-counterclockwise"></i> Limpiar
+                        </button>
+                        <button type="submit" class="btn btn-success">
+                            <i class="bi bi-save"></i> Guardar Animal
+                        </button>
+                    </div>
         </form>
     </div>
 </div>

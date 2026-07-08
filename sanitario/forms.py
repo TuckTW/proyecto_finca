@@ -13,14 +13,14 @@ class VacunacionForm(forms.ModelForm):
             'id_ganado': forms.Select(attrs={'class': 'form-control'}),
             'id_vacuna': forms.Select(attrs={'class': 'form-control'}),
         }
-    
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['id_ganado'].queryset = Ganado.objects.filter(estado='Activo')
         self.fields['id_ganado'].label = 'Animal'
         self.fields['id_vacuna'].queryset = Vacuna.objects.all()
         self.fields['id_vacuna'].label = 'Vacuna'
-        self.fields['fecha'].label = 'Fecha de Aplicación'
+        self.fields['fecha'].label = 'Fecha de Aplicacion'
 
 class TratamientoForm(forms.ModelForm):
     class Meta:
@@ -34,7 +34,7 @@ class TratamientoForm(forms.ModelForm):
             'id_enfermedad': forms.Select(attrs={'class': 'form-control'}),
             'medicamento': forms.TextInput(attrs={'class': 'form-control'}),
         }
-    
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['id_ganado'].queryset = Ganado.objects.all()

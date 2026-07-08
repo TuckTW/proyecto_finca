@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import date
 
 class Raza(models.Model):
     id_raza = models.AutoField(primary_key=True)
@@ -43,6 +44,22 @@ class Ganado(models.Model):
 
     def __str__(self):
         return f"{self.codigo} - {self.nombre}"
+
+    def calcular_gmd(self):
+        """Calcula la Ganancia Media Diaria (GMD) en kg."""
+        if self.peso_inicial and self.peso_actual and self.fecha_nacimiento:
+            dias = (date.today() - self.fecha_nacimiento).days
+            if dias > 0:
+                return float((self.peso_actual - self.peso_inicial) / dias)
+        return 0.0
+
+    def predecir_peso(self, dias_a_futuro=30):
+        """Predice el peso estimado en N dias."""
+        gmd = self.calcular_gmd()
+        if gmd > 0 and self.peso_actual:
+            peso_estimado = float(self.peso_actual) + (gmd * dias_a_futuro)
+            return round(peso_estimado, 2)
+        return self.peso_actual or 0.0
 
 class CodigoQR(models.Model):
     id_qr = models.AutoField(primary_key=True)

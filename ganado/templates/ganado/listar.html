@@ -16,31 +16,43 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th>Código</th>
+                        <th>Codigo</th>
                         <th>Nombre</th>
                         <th>Raza</th>
                         <th>Sexo</th>
-                        <th>Peso (kg)</th>
+                        <th>Peso Actual</th>
+                        <th>Proyeccion (30 dias)</th>
                         <th>Estado</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for animal in ganado %}
                     <tr>
-                        <td><strong>{{ animal.1 }}</strong></td>
-                        <td>{{ animal.2 }}</td>
-                        <td>{{ animal.14 }}</td>
-                        <td>{{ animal.4 }}</td>
-                        <td>{{ animal.7|default:"-" }}</td>
+                        <td class="fw-bold text-primary">{{ animal.codigo }}</td>
+                        <td>{{ animal.nombre }}</td>
+                        <td>{% if animal.id_raza %}{{ animal.id_raza.nombre }}{% else %}-{% endif %}</td>
+                        <td>{{ animal.sexo }}</td>
+                        <td>{{ animal.peso_actual }} kg</td>
                         <td>
-                            <span class="badge bg-{% if animal.8 == 'Activo' %}success{% elif animal.8 == 'Enfermo' %}danger{% elif animal.8 == 'Vendido' %}warning{% else %}secondary{% endif %}">
-                                {{ animal.8 }}
-                            </span>
+                            <span class="badge bg-info text-dark">{{ animal.predecir_peso }} kg</span>
+                        </td>
+                        <td>
+                            {% if animal.estado == 'Activo' %}
+                                <span class="badge bg-success">{{ animal.estado }}</span>
+                            {% elif animal.estado == 'Enfermo' %}
+                                <span class="badge bg-warning text-dark">{{ animal.estado }}</span>
+                            {% else %}
+                                <span class="badge bg-secondary">{{ animal.estado }}</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{% url 'ganado:editar_ganado' animal.id_ganado %}" class="btn btn-sm btn-outline-primary">Editar</a>
                         </td>
                     </tr>
                     {% empty %}
                     <tr>
-                        <td colspan="6" class="text-center">No hay animales registrados</td>
+                        <td colspan="8" class="text-center py-4 text-muted">No hay ganado registrado aun.</td>
                     </tr>
                     {% endfor %}
                 </tbody>
