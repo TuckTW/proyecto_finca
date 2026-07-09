@@ -75,7 +75,7 @@ def dashboard(request):
     except Exception as e:
         print(f"Error en dashboard: {e}")
     
-    colores_estado = {'Activo': '#2ecc71', 'Enfermo': '#e74c3c', 'Recuperacion': '#f1c40f'}
+    colores_estado = {'Vendido': '#2ecc71', 'Activo': '#3498db', 'Enfermo': '#e74c3c', 'Recuperacion': '#f1c40f'}
     colores_raza = ['#3498db', '#e74c3c', '#2ecc71', '#f39c12', '#9b59b6', '#1abc9c', '#e67e22', '#34495e', '#e91e63', '#00bcd4']
 
     chart_estado = {
